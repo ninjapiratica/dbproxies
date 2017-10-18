@@ -1,20 +1,16 @@
-﻿using DbProxy;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Threading.Tasks;
 
-namespace SqlProxy.Test.SqlConnectionProxyTests
+namespace DbProxy.Test.SqlConnectionProxyTests
 {
     [TestClass]
     public class FallBackTests
     {
-        private class FakeDbException : DbException { }
-        private SqlConnectionProxy _proxy;
+        private FakeDbConnectionProxy _proxy;
 
-        private string[] _connectionStrings = new string[]
-        {
+        private string[] _connectionStrings = {
             "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=PersonContext;Integrated Security=True",
             "Data Source=.;Initial Catalog=Custom;Integrated Security=True"
         };
@@ -22,7 +18,7 @@ namespace SqlProxy.Test.SqlConnectionProxyTests
         [TestInitialize]
         public void Initialize()
         {
-            _proxy = new SqlConnectionProxy(_connectionStrings, connectionOption: ConnectionOption.Fallback);
+            _proxy = new FakeDbConnectionProxy(_connectionStrings, connectionOption: ConnectionOption.Fallback);
         }
 
         [TestMethod]

@@ -9,7 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlProxy.Test", "SqlProxy.T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlProxy.ConsoleTester", "SqlProxy.ConsoleTester\SqlProxy.ConsoleTester.csproj", "{965B0BFB-183F-474F-9FC2-C4545F92E95A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlProxy", "SqlProxy\SqlProxy.csproj", "{B6305A12-7338-4636-8FD7-8EE86D22F3E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlProxy", "SqlProxy\SqlProxy.csproj", "{B6305A12-7338-4636-8FD7-8EE86D22F3E7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbProxy.Test", "DbProxy.Test\DbProxy.Test.csproj", "{0FB9E109-2126-43E3-9F0D-16A410A4654C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{B6305A12-7338-4636-8FD7-8EE86D22F3E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6305A12-7338-4636-8FD7-8EE86D22F3E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6305A12-7338-4636-8FD7-8EE86D22F3E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FB9E109-2126-43E3-9F0D-16A410A4654C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FB9E109-2126-43E3-9F0D-16A410A4654C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FB9E109-2126-43E3-9F0D-16A410A4654C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FB9E109-2126-43E3-9F0D-16A410A4654C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

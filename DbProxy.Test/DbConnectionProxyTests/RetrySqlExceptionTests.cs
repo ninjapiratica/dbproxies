@@ -1,28 +1,21 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Data.Common;
-using System.Data.SqlClient;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
-namespace SqlProxy.Test.SqlConnectionProxyTests
+namespace DbProxy.Test.SqlConnectionProxyTests
 {
     [TestClass]
     public class RetrySqlExceptionTests
     {
-        private class FakeDbException : DbException { }
-        private SqlConnectionProxy _proxy;
+        private FakeDbConnectionProxy _proxy;
         private int maxAttempts = 3;
-
-        private string[] _connectionStrings = new string[]
-        {
-            "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=PersonContext;Integrated Security=True"
-        };
 
         [TestInitialize]
         public void Initialize()
         {
-            _proxy = new SqlConnectionProxy(_connectionStrings, maxAttempts: maxAttempts);
+            _proxy = new FakeDbConnectionProxy(new string[] {
+                "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=PersonContext;Integrated Security=True"
+            }, maxAttempts: maxAttempts);
         }
 
         [TestMethod]
@@ -45,10 +38,8 @@ namespace SqlProxy.Test.SqlConnectionProxyTests
             var count = 0;
             await Assert.ThrowsExceptionAsync<AggregateException>(() => _proxy.RunAsync(async (con) =>
                 {
-                    var exception = Instantiate<SqlException>();
-
                     count++;
-                    return await Task.FromException<int>(exception);
+                    return await Task.FromException<int>(new FakeDbException());
                 })
             );
 
@@ -67,7 +58,5 @@ namespace SqlProxy.Test.SqlConnectionProxyTests
 
             Assert.AreEqual(1, count);
         }
-
-        private T Instantiate<T>() where T : class => FormatterServices.GetUninitializedObject(typeof(T)) as T;
     }
 }

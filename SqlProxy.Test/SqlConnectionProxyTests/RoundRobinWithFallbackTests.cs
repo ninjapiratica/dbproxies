@@ -11,102 +11,90 @@ namespace SqlProxy.Test.SqlConnectionProxyTests
     {
         private SqlConnectionProxy _proxy;
 
-        private string _firstDb = "PersonContext";
-        private string _secondDb = "Custom";
+        private string[] _connectionStrings = new string[]
+        {
+            "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=PersonContext;Integrated Security=True",
+            "Data Source=.;Initial Catalog=Custom;Integrated Security=True"
+        };
 
         [TestInitialize]
         public void Initialize()
         {
-            _proxy = new SqlConnectionProxy(new string[] {
-                "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=PersonContext;Integrated Security=True",
-                "Data Source=.;Initial Catalog=Custom;Integrated Security=True"
-            }, connectionOption: ConnectionOption.RoundRobinWithFallback);
+            _proxy = new SqlConnectionProxy(_connectionStrings, connectionOption: ConnectionOption.RoundRobinWithFallback);
         }
 
         [TestMethod]
         public async Task Exception()
         {
-            var count = 0;
-            var dbs = new List<string>();
+            var connectionStrings = new List<string>();
             await Assert.ThrowsExceptionAsync<AggregateException>(() => _proxy.RunAsync(async (con) =>
                 {
-                    dbs.Add(con.Database);
-                    count++;
+                    connectionStrings.Add(con.ConnectionString);
                     return await Task.FromException<int>(new Exception());
                 })
             );
 
-            Assert.AreEqual(2, count);
-            Assert.AreEqual(_firstDb, dbs[0]);
-            Assert.AreEqual(_secondDb, dbs[1]);
+            Assert.AreEqual(_connectionStrings.Length, connectionStrings.Count);
+            Assert.AreEqual(_connectionStrings[0], connectionStrings[0]);
+            Assert.AreEqual(_connectionStrings[1], connectionStrings[1]);
 
-            count = 0;
-            dbs = new List<string>();
+            connectionStrings.Clear();
             await Assert.ThrowsExceptionAsync<AggregateException>(() => _proxy.RunAsync(async (con) =>
                 {
-                    dbs.Add(con.Database);
-                    count++;
+                    connectionStrings.Add(con.ConnectionString);
                     return await Task.FromException<int>(new Exception());
                 })
             );
 
-            Assert.AreEqual(2, count);
-            Assert.AreEqual(_secondDb, dbs[0]);
-            Assert.AreEqual(_firstDb, dbs[1]);
+            Assert.AreEqual(_connectionStrings.Length, connectionStrings.Count);
+            Assert.AreEqual(_connectionStrings[1], connectionStrings[0]);
+            Assert.AreEqual(_connectionStrings[0], connectionStrings[1]);
 
-            count = 0;
-            dbs = new List<string>();
+            connectionStrings.Clear();
             await Assert.ThrowsExceptionAsync<AggregateException>(() => _proxy.RunAsync(async (con) =>
                 {
-                    dbs.Add(con.Database);
-                    count++;
+                    connectionStrings.Add(con.ConnectionString);
                     return await Task.FromException<int>(new Exception());
                 })
             );
 
-            Assert.AreEqual(2, count);
-            Assert.AreEqual(_firstDb, dbs[0]);
-            Assert.AreEqual(_secondDb, dbs[1]);
+            Assert.AreEqual(_connectionStrings.Length, connectionStrings.Count);
+            Assert.AreEqual(_connectionStrings[0], connectionStrings[0]);
+            Assert.AreEqual(_connectionStrings[1], connectionStrings[1]);
         }
 
         [TestMethod]
         public async Task NoException()
         {
-            var count = 0;
-            var db = string.Empty;
+            var connectionStrings = new List<string>();
             await _proxy.RunAsync(async (con) =>
             {
-                db = con.Database;
-                count++;
+                connectionStrings.Add(con.ConnectionString);
                 return await Task.FromResult(0);
             });
 
-            Assert.AreEqual(1, count);
-            Assert.AreEqual(_firstDb, db);
+            Assert.AreEqual(1, connectionStrings.Count);
+            Assert.AreEqual(_connectionStrings[0], connectionStrings[0]);
 
-            count = 0;
-            db = string.Empty;
+            connectionStrings.Clear();
             await _proxy.RunAsync(async (con) =>
             {
-                db = con.Database;
-                count++;
+                connectionStrings.Add(con.ConnectionString);
                 return await Task.FromResult(0);
             });
 
-            Assert.AreEqual(1, count);
-            Assert.AreEqual(_secondDb, db);
+            Assert.AreEqual(1, connectionStrings.Count);
+            Assert.AreEqual(_connectionStrings[1], connectionStrings[0]);
 
-            count = 0;
-            db = string.Empty;
+            connectionStrings.Clear();
             await _proxy.RunAsync(async (con) =>
             {
-                db = con.Database;
-                count++;
+                connectionStrings.Add(con.ConnectionString);
                 return await Task.FromResult(0);
             });
 
-            Assert.AreEqual(1, count);
-            Assert.AreEqual(_firstDb, db);
+            Assert.AreEqual(1, connectionStrings.Count);
+            Assert.AreEqual(_connectionStrings[0], connectionStrings[0]);
         }
     }
 }
