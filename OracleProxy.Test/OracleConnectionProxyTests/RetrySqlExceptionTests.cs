@@ -1,28 +1,28 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Data.Common;
-using System.Data.SqlClient;
+using System.Data.OracleClient;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
-namespace SqlProxy.Test.SqlConnectionProxyTests
+namespace OracleProxy.Test.SqlConnectionProxyTests
 {
     [TestClass]
     public class RetrySqlExceptionTests
     {
         private class FakeDbException : DbException { }
-        private SqlConnectionProxy _proxy;
+        private OracleConnectionProxy _proxy;
         private int maxAttempts = 3;
 
         private string[] _connectionStrings =
         {
-            "Data Source=MySqlServerDB;Integrated Security=True"
+            "Data Source=MyOracleDB;Integrated Security=yes;"
         };
 
         [TestInitialize]
         public void Initialize()
         {
-            _proxy = new SqlConnectionProxy(_connectionStrings, maxAttempts: maxAttempts);
+            _proxy = new OracleConnectionProxy(_connectionStrings, maxAttempts: maxAttempts);
         }
 
         [TestMethod]
@@ -45,7 +45,7 @@ namespace SqlProxy.Test.SqlConnectionProxyTests
             var count = 0;
             await Assert.ThrowsExceptionAsync<AggregateException>(() => _proxy.RunAsync(async (con) =>
                 {
-                    var exception = Instantiate<SqlException>();
+                    var exception = Instantiate<OracleException>();
 
                     count++;
                     return await Task.FromException<int>(exception);

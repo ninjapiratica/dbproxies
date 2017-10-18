@@ -1,24 +1,26 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using DbProxy;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DbProxy.Test.SqlConnectionProxyTests
+namespace OracleProxy.Test.SqlConnectionProxyTests
 {
     [TestClass]
-    public class RoundRobinTestsWithFallbackTests
+    public class RoundRobinWithFallbackTests
     {
-        private FakeDbConnectionProxy _proxy;
+        private OracleConnectionProxy _proxy;
 
-        private string[] _connectionStrings = {
-            "FakeConnectionString",
-            "FakeConnectionString1"
+        private string[] _connectionStrings = new string[]
+        {
+            "Data Source=MyOracleDB;Integrated Security=yes;",
+            "Data Source=MyOracleDB1;Integrated Security=yes;"
         };
 
         [TestInitialize]
         public void Initialize()
         {
-            _proxy = new FakeDbConnectionProxy(_connectionStrings, connectionOption: ConnectionOption.RoundRobinWithFallback);
+            _proxy = new OracleConnectionProxy(_connectionStrings, connectionOption: ConnectionOption.RoundRobinWithFallback);
         }
 
         [TestMethod]

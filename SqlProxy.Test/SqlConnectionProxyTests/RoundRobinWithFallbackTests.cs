@@ -13,8 +13,8 @@ namespace SqlProxy.Test.SqlConnectionProxyTests
 
         private string[] _connectionStrings = new string[]
         {
-            "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=PersonContext;Integrated Security=True",
-            "Data Source=.;Initial Catalog=Custom;Integrated Security=True"
+            "Data Source=MySqlServerDB;Integrated Security=True",
+            "Data Source=MySqlServerDB1;Integrated Security=True"
         };
 
         [TestInitialize]

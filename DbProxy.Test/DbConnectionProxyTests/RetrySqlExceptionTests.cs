@@ -10,12 +10,15 @@ namespace DbProxy.Test.SqlConnectionProxyTests
         private FakeDbConnectionProxy _proxy;
         private int maxAttempts = 3;
 
+        private string[] _connectionStrings =
+        {
+            "FakeConnectionString"
+        };
+
         [TestInitialize]
         public void Initialize()
         {
-            _proxy = new FakeDbConnectionProxy(new string[] {
-                "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=PersonContext;Integrated Security=True"
-            }, maxAttempts: maxAttempts);
+            _proxy = new FakeDbConnectionProxy(_connectionStrings, maxAttempts: maxAttempts);
         }
 
         [TestMethod]

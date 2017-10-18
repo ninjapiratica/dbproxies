@@ -2,9 +2,9 @@
 {
     public enum ConnectionOption
     {
-        FirstOnly = 0,
-        Fallback = 1,
-        RoundRobin = 2,
-        RoundRobinWithFallback = 3
+        FirstOnly = 0b0000,
+        Fallback = 0b0001,
+        RoundRobin = 0b0010,
+        RoundRobinWithFallback = 0b0011
     }
 }

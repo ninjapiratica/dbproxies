@@ -1,24 +1,28 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using DbProxy;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Threading.Tasks;
 
-namespace DbProxy.Test.SqlConnectionProxyTests
+namespace OracleProxy.Test.SqlConnectionProxyTests
 {
     [TestClass]
-    public class RoundRobinTestsWithFallbackTests
+    public class FallBackTests
     {
-        private FakeDbConnectionProxy _proxy;
+        private class FakeDbException : DbException { }
+        private OracleConnectionProxy _proxy;
 
-        private string[] _connectionStrings = {
-            "FakeConnectionString",
-            "FakeConnectionString1"
+        private string[] _connectionStrings = new string[]
+        {
+            "Data Source=MyOracleDB;Integrated Security=yes;",
+            "Data Source=MyOracleDB1;Integrated Security=yes;"
         };
 
         [TestInitialize]
         public void Initialize()
         {
-            _proxy = new FakeDbConnectionProxy(_connectionStrings, connectionOption: ConnectionOption.RoundRobinWithFallback);
+            _proxy = new OracleConnectionProxy(_connectionStrings, connectionOption: ConnectionOption.Fallback);
         }
 
         [TestMethod]
@@ -45,18 +49,6 @@ namespace DbProxy.Test.SqlConnectionProxyTests
             );
 
             Assert.AreEqual(_connectionStrings.Length, connectionStrings.Count);
-            Assert.AreEqual(_connectionStrings[1], connectionStrings[0]);
-            Assert.AreEqual(_connectionStrings[0], connectionStrings[1]);
-
-            connectionStrings.Clear();
-            await Assert.ThrowsExceptionAsync<AggregateException>(() => _proxy.RunAsync(async (con) =>
-                {
-                    connectionStrings.Add(con.ConnectionString);
-                    return await Task.FromException<int>(new Exception());
-                })
-            );
-
-            Assert.AreEqual(_connectionStrings.Length, connectionStrings.Count);
             Assert.AreEqual(_connectionStrings[0], connectionStrings[0]);
             Assert.AreEqual(_connectionStrings[1], connectionStrings[1]);
         }
@@ -73,16 +65,6 @@ namespace DbProxy.Test.SqlConnectionProxyTests
 
             Assert.AreEqual(1, connectionStrings.Count);
             Assert.AreEqual(_connectionStrings[0], connectionStrings[0]);
-
-            connectionStrings.Clear();
-            await _proxy.RunAsync(async (con) =>
-            {
-                connectionStrings.Add(con.ConnectionString);
-                return await Task.FromResult(0);
-            });
-
-            Assert.AreEqual(1, connectionStrings.Count);
-            Assert.AreEqual(_connectionStrings[1], connectionStrings[0]);
 
             connectionStrings.Clear();
             await _proxy.RunAsync(async (con) =>

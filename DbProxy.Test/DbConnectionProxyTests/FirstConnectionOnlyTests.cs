@@ -11,8 +11,8 @@ namespace DbProxy.Test.SqlConnectionProxyTests
         private FakeDbConnectionProxy _proxy;
 
         private string[] _connectionStrings = {
-            "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=PersonContext;Integrated Security=True",
-            "Data Source=.;Initial Catalog=Custom;Integrated Security=True"
+            "FakeConnectionString",
+            "FakeConnectionString1"
         };
 
         [TestInitialize]
