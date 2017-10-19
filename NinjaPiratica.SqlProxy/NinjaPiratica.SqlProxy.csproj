@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>NinjaPiratica</Authors>
+    <Company>NinjaPiratica</Company>
+    <Product>SqlProxy</Product>
+    <Description>Wrapper for SqlConnection facilitating Fallback, RoundRobin, and Retries</Description>
+    <Copyright>Copyright 2017 (c) NinjaPiratica</Copyright>
+    <PackageTags>sqlconnection proxy retry roundrobin fallback</PackageTags>
+    <PackageReleaseNotes>First Release</PackageReleaseNotes>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile />
   </PropertyGroup>
 
   <ItemGroup>

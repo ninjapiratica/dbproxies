@@ -14,6 +14,7 @@
     <PackageReleaseNotes>First Release</PackageReleaseNotes>
     <Copyright>Copyright 2017 (c) NinjaPiratica</Copyright>
     <PackageTags>dbconnection proxy retry roundrobin fallback</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
 </Project>
