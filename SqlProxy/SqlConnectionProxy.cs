@@ -11,8 +11,7 @@ namespace SqlProxy
 
         public SqlConnectionProxy(string[] connectionStrings, ConnectionOption connectionOption = ConnectionOption.FirstOnly, int maxAttempts = 1)
             : base(connectionStrings, connectionOption, maxAttempts)
-        {
-        }
+        { }
 
         protected override SqlConnection GetConnection(string connectionString) => new SqlConnection(connectionString);
     }
