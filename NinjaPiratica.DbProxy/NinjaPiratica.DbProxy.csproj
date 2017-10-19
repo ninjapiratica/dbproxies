@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>NinjaPiratica.DbProxy</AssemblyName>
+    <RootNamespace>NinjaPiratica.DbProxy</RootNamespace>
+    <PackageId>NinjaPiratica.DbProxy</PackageId>
+    <PackageVersion>1.0</PackageVersion>
+    <Authors>NinjaPiratica</Authors>
+    <Company>NinjaPiratica</Company>
+    <Product>DbProxy</Product>
+    <Description>Wrapper for DbConnection facilitating Fallback, RoundRobin, and Retries</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageReleaseNotes>First Release</PackageReleaseNotes>
+    <Copyright>Copyright 2017 (c) NinjaPiratica</Copyright>
+    <PackageTags>dbconnection proxy retry roundrobin fallback</PackageTags>
+  </PropertyGroup>
+
+</Project>
